@@ -1,18 +1,25 @@
 import Vue from "vue";
 
 import VueRouter from 'vue-router'
+import Home from "../components/Home.vue";
 import HelloWorld from "../components/HelloWorld.vue";
+import Login from "../components/index/Login.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", name: "HelloWorld", component: HelloWorld },
+  { path: "/login", name: "login", component: Login },
   {
-    path: "/space",
-    component: HelloWorld,
-    name: "space",
+    path: '/',
+    redirect: '/home/index',  //重定向到默认首页
+    hidden: true,  
+  },
+  {
+    path: "/home",
+    component: Home,
+    name: "home",
     children: [
-      { path: "avatar", component: HelloWorld, name: "avatar" },
+      { path: "index", component: HelloWorld, name: "index" },
     ]
   }
 ];

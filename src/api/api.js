@@ -6,9 +6,11 @@ import Vue from "vue";
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    if (localStorage.JWT_TOKEN) {
+    console.log("token:",localStorage.getItem("token"));
+    if (localStorage.getItem("token")) {
       // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.Authorization = `${localStorage.JWT_TOKEN}`;
+      config.headers.Authorization = localStorage.getItem("token");
+      console.log("has token");
     }
     return config;
   },
@@ -56,12 +58,21 @@ axios.interceptors.response.use(
   }
 );
 
-const baseURL = "/";
+const baseURL = "http://10.0.46.20:8080";
 
-const fun = () =>{
-    return baseURL;
-}
+const login = data => {
+  return axios.post(`${baseURL}/auth/login`, data);
+};
+const logout = () => {
+  return axios.get(`${baseURL}/auth/logout`);
+};
+
+const checkToken = token => {
+  return axios.get(`${baseURL}/tokens`, token);
+};
 
 export default {
-    fun
+    login,
+    logout,
+    checkToken
 };
