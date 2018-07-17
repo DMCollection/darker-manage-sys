@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import Home from "./components/Home.vue";
 
 export default {
   name: "app",
   components: {
-    HelloWorld,
     Home
   },
   data() {
@@ -43,5 +41,21 @@ body {
 .text-color-white {
   color: #d0d0d2;
 }
+  .el-message-box {
+    background-color: #0c0505;
+    border: 1px solid #000000;
+  }
+.el-message-box__title {
+  color: #a9a9a9;
+}
+.el-message-box__content {
+  color: #a4a6ab;
+}
+
+  .el-message-box__input .el-input .el-input__inner {
+    background-color: #0f0f19;
+    border: 1px solid #393945;
+  }
+
 </style>
 

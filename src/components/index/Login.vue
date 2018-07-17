@@ -3,7 +3,7 @@
         <div class="login-box">
         <h1>LOGIN</h1>
         <div class="login-form">
-           <el-form style="margin-left:0;margin-right:0;" ref="login" size="small" label-position="left" label-width="40px" :model="loginInfo">
+           <el-form style="margin-left:0;margin-right:0;" ref="Login" size="small" label-position="left" label-width="40px" :model="loginInfo">
             <el-form-item label="账户">
             <el-input v-model="loginInfo.principal"></el-input>
            </el-form-item>

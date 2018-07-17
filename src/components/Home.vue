@@ -1,97 +1,107 @@
 <template>
-    <div id="home">
-        <el-container style="z-index:1000;position: fixed;height: 60px;background-color: transparent;width: 100%;right: 0;top:0;">
+  <div id="home">
+    <el-container
+            style="z-index:1000;position: fixed;height: 60px;background-color: transparent;width: 100%;right: 0;top:0;">
       <el-header style="background-color:rgba(20,20,34,0.9);text-align: right; font-size: 12px">
-      <el-dropdown>
-        <div class="avatar-wrapper">
+        <el-dropdown>
+          <div class="avatar-wrapper">
             <img class="avatar" :src="userInfo.face?userInfo.face:'/static/rm.jpg'">
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>{{userInfo.nick}}</el-dropdown-item>
-          <div @click="logout"><el-dropdown-item>登出</el-dropdown-item></div>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </el-header>
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>{{userInfo.nick}}</el-dropdown-item>
+            <div @click="logout">
+              <el-dropdown-item>登出</el-dropdown-item>
+            </div>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-header>
     </el-container>
 
     <el-container style="margin-top:60px;">
-  <el-aside width="200px" style="background-color: rgb(238, 241, 246);margin-right: 20px;">
-    <el-menu 
-    background-color="#262633"
-    text-color="#f9efc1"
-    active-text-color="#d8c13a"
-    :default-openeds="['1', '3']"
-    :default-active="activeIndex">
-      <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>导航一</template>
-        <el-menu-item-group>
-          <template slot="title">HOME</template>
-          <router-link to="/home/index"><el-menu-item index="1-1">index</el-menu-item></router-link>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title"><i class="el-icon-menu"></i>导航二</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-    </el-menu>
-  </el-aside>
-  
-  <el-container>   
-    <el-main style="background-color:#262633">
-      <router-view></router-view>
-    </el-main>
-  </el-container>
-</el-container>
-    </div>
+      <el-aside width="200px" style="margin-right: 20px;">
+        <el-menu
+                background-color="#262633"
+                text-color="#f9efc1"
+                :router="true"
+                active-text-color="#d8c13a"
+                :default-active="activeIndex">
+          <el-menu-item :route="{path: '/home/index'}" index="0">
+            DARKER后台首页
+          </el-menu-item>
+          <el-submenu index="1">
+            <template slot="title"><i class="el-icon-message"></i>番剧管理</template>
+            <el-menu-item :route="{path: '/home/bangumi'}" index="1-1">番剧列表</el-menu-item>
+            <el-menu-item :route="{path: '/home/bangumiedit'}" index="#">新增番剧</el-menu-item>
+            <el-menu-item :route="{path: '/home/bangumi/userpost'}" index="1-3">提交列表</el-menu-item>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title"><i class="el-icon-message"></i>剧集管理</template>
+            <el-menu-item :route="{path: '/home/episode'}" index="2-1">剧集列表</el-menu-item>
+            <el-menu-item index="#">新增剧集</el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title"><i class="el-icon-message"></i>视频管理</template>
+            <el-menu-item :route="{path: '/home/video'}" index="3-1">视频列表</el-menu-item>
+            <el-menu-item :route="{path: '/home/video/userpost'}" index="3-2">提交列表</el-menu-item>
+            <el-menu-item index="#">新增视频</el-menu-item>
+          </el-submenu>
+          <el-submenu index="4">
+            <template slot="title"><i class="el-icon-message"></i>弹幕管理</template>
+            <el-menu-item :route="{path: '/home/danmaku'}" index="4-1">弹幕列表</el-menu-item>
+            <el-menu-item index="#">被举报弹幕</el-menu-item>
+            <el-menu-item index="#">弹幕过滤规则</el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title"><i class="el-icon-message"></i>用户管理</template>
+            <el-menu-item :route="{path: '/home/user'}" index="5-1">用户列表</el-menu-item>
+            <el-menu-item index="#">锁定用户</el-menu-item>
+          </el-submenu>
+          <el-menu-item :route="{path: '/home/apitest'}" index="6">
+            API JSON数据展示
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-main style="background-color:#262633">
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./HelloWorld.vue";
-import API from "../api/api";
-export default {
-    data(){
-        return {
-            activeIndex: "1-1",
-            userInfo:{
-              uid:"",
-              nick:"",
-              face:"",
-              role:""
-            }
+  import API from "../api/api";
+  import ApiTest from "../components/jsonresp/ApiTest.vue";
+  import UserList from "../components/user/UserList.vue";
+
+  export default {
+    data() {
+      return {
+        activeIndex: "0",
+        userInfo: {
+          uid: "",
+          nick: "",
+          face: "",
+          role: ""
         }
+      }
     },
-    components:{
-        "hello-world": HelloWorld
+    components: {
+      ApiTest,
+      UserList
     },
-    methods:{
-        async logout(){
+    methods: {
+      async logout() {
         console.log("logout~!");
         let sendLogout = false;
-        if(localStorage.getItem("token")){
+        if (localStorage.getItem("token")) {
           sendLogout = true;
         }
-        
-        if(sendLogout){
-             await API.logout();
+
+        if (sendLogout) {
+          await API.logout();
         }
         localStorage.clear();
         window.location.href = "#/login";
@@ -103,20 +113,21 @@ export default {
       this.userInfo.face = localStorage.getItem("face");
       this.userInfo.role = localStorage.getItem("role");
     }
-}
+  }
 </script>
 
 <style scoped>
-.avatar-wrapper {
-  padding-top: 13px;
-  cursor: pointer;
-  position: relative;
-  height: 40px;
-  line-height: 40px;
-}
-.avatar-wrapper .avatar {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
+  .avatar-wrapper {
+    padding-top: 13px;
+    cursor: pointer;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .avatar-wrapper .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
 </style>

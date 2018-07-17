@@ -1,10 +1,15 @@
 import Vue from 'vue'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
-import router from './routes/router.js';
+import router from './routes/router.js'
+import TreeView from 'vue-json-tree-view'
+import global from './global/global'
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(TreeView);
+Vue.prototype.GLOBAL = global;
 
 router.beforeEach((to, from, next) =>{
   console.log("to.path:",to.path);
@@ -31,3 +36,4 @@ new Vue({
   render: h => h(App),
   router
 }).$mount('#app')
+

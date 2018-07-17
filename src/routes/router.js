@@ -1,14 +1,32 @@
 import Vue from "vue";
-
 import VueRouter from 'vue-router'
+
 import Home from "../components/Home.vue";
-import HelloWorld from "../components/HelloWorld.vue";
 import Login from "../components/index/Login.vue";
+import ApiTest from "../components/jsonresp/ApiTest.vue";
+import Index from "../components/index/Index.vue";
+
+import UserList from "../components/user/UserList.vue";
+import UserDetail from "../components/user/UserDetail.vue";
+
+import BangumiList from "../components/bangumi/BangumiList.vue";
+import BangumiDetail from "../components/bangumi/BangumiDetail.vue";
+import BangumiEdit from "../components/bangumi/BangumiEdit.vue";
+import UserPostBangumi from "../components/bangumi/UserPostBangumi.vue";
+
+import EpisodeList from "../components/episode/EpisodeList.vue";
+import EpisodeDetail from "../components/episode/EpisodeDetail.vue";
+
+import VideoList from "../components/video/VideoList.vue";
+import VideoDetail from "../components/video/VideoDetail.vue";
+import UserPostVideo from "../components/video/UserPostVideo.vue";
+
+import DanmakuList from "../components/danmaku/DanmakuList";
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/login", name: "login", component: Login },
+  { path: "/login", name: "Login", component: Login },
   {
     path: '/',
     redirect: '/home/index',  //重定向到默认首页
@@ -19,9 +37,22 @@ const routes = [
     component: Home,
     name: "home",
     children: [
-      { path: "index", component: HelloWorld, name: "index" },
+      { path: "index", component: Index, name: "index" },
+      { path: "apitest", component: ApiTest, name: "apitest"},
+      { path: "user", component: UserList, name: "userlist"},
+      { path: "userdetail/:uid", component: UserDetail, name: "userdetail"},
+      { path: "bangumi", component: BangumiList, name: "bangumilist"},
+      { path: "bangumidetail/:bid", component: BangumiDetail, name: "bangumidetail"},
+      { path: "bangumiedit", component: BangumiEdit, name: "bangumiedit"},
+      { path: "bangumi/userpost", component: UserPostBangumi, name: "userpostbangumi"},
+      { path: "episode", component: EpisodeList, name: "episodelist"},
+      { path: "episodedetail/:eid", component: EpisodeDetail, name: "episodedetail"},
+      { path: "video", component: VideoList, name: "videolist"},
+      { path: "videodetail/:vid", component: VideoDetail, name: "videodetail"},
+      { path: "video/userpost", component: UserPostVideo, name: "userpostvideo"},
+      { path: "danmaku", component: DanmakuList, name: "danmakulist"}
     ]
-  }
+  },
 ];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
