@@ -21,12 +21,17 @@ import VideoList from "../components/video/VideoList.vue";
 import VideoDetail from "../components/video/VideoDetail.vue";
 import UserPostVideo from "../components/video/UserPostVideo.vue";
 
-import DanmakuList from "../components/danmaku/DanmakuList";
+import DanmakuList from "../components/danmaku/DanmakuList.vue";
+
+import AnnounceList from "../components/announce/AnnounceList.vue";
+import AnnouncePost from "../components/announce/AnnouncePost.vue";
+import AnnouncePreview from "../components/announce/AnnouncePreview.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   { path: "/login", name: "Login", component: Login },
+  { path: "/announce/preview", name: "annpreview", component: AnnouncePreview},
   {
     path: '/',
     redirect: '/home/index',  //重定向到默认首页
@@ -50,7 +55,9 @@ const routes = [
       { path: "video", component: VideoList, name: "videolist"},
       { path: "videodetail/:vid", component: VideoDetail, name: "videodetail"},
       { path: "video/userpost", component: UserPostVideo, name: "userpostvideo"},
-      { path: "danmaku", component: DanmakuList, name: "danmakulist"}
+      { path: "danmaku", component: DanmakuList, name: "danmakulist"},
+      { path: "announce", component: AnnounceList, name: "announcelist"},
+      { path: "announce/new", component: AnnouncePost, name: "announcepost"},
     ]
   },
 ];

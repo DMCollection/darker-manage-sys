@@ -1,3 +1,5 @@
+// const uploadURL = "imgur-api/3/image";
+// const imgURL = "imgur";
 const uploadURL = "https://api.imgur.com/3/image";
 const imgURL = "https://i.imgur.com";
 const uploadHEADERS = {

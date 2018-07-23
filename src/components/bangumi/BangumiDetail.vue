@@ -252,22 +252,22 @@
 
 <style scoped>
   .bangumi-info {
-    height: 230px;
+    height: 200px;
     margin-bottom: 20px;
     border-bottom: 1px solid #303133;
   }
   .bangumi-img-wrapper {
-    width: 160px;
-    height: 210px;
+    width: 320px;
+    height: 180px;
     float: left;
   }
   .bangumi-img {
-    width: 160px;
-    height: 210px;
+    width: 320px;
+    height: 180px;
   }
 
   .bangumi-other {
-    margin-left: 170px;
+    margin-left: 330px;
   }
   .page-info {
     margin-top: 20px;

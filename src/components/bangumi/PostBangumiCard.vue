@@ -3,38 +3,32 @@
     <div class="box-card">
       <div class="card-header clearfix">
         <span style="display: inline-block; padding: 3px 5px;color:#d2cece">{{bangumi.bn}}</span>
-        <span class="pb-status" :class="{pending:isPending,failed: isFailed,success: isSuccess,nperfect: isNotPerfect}">
+        <span class="pb-status" :class="{pending:isPending,failed: isFailed,success: isSuccess,nperfect: isNotPerfect,auditting:isAuditting}">
           {{bangumi.pbs_name}}
         </span>
       </div>
       <div class="card-body">
         <div class="bangumi-info">
           <div class="thumb-wrapper">
-            <el-upload
-                    class="avatar-uploader"
-                    :action="GLOBAL.uploadURL"
-                    :show-file-list="false"
-                    name="image"
-                    :headers="GLOBAL.uploadHEADERS"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-              <img v-if="bangumi.thumb" class="thumb" :src="bangumi.thumb"/>
-              <i v-else class="el-icon-plus avatar-uploader-icon add-avatar"></i>
-            </el-upload>
-            <!--<img class="thumb" :src="bangumi.thumb"/>-->
+            <!--<el-upload-->
+                    <!--class="avatar-uploader"-->
+                    <!--:action="GLOBAL.uploadURL"-->
+                    <!--:show-file-list="false"-->
+                    <!--name="image"-->
+                    <!--:headers="GLOBAL.uploadHEADERS"-->
+                    <!--:on-success="handleAvatarSuccess"-->
+                    <!--:before-upload="beforeAvatarUpload">-->
+              <!--<img v-if="bangumi.thumb" class="thumb" :src="bangumi.thumb"/>-->
+              <!--<i v-else class="el-icon-plus avatar-uploader-icon add-avatar"></i>-->
+            <!--</el-upload>-->
+            <img class="thumb" :src="bangumi.thumb"/>
           </div>
           <div class="bangumi-info-item">
-            <p>共{{bangumi.et}}集</p>
-            <p>{{bangumi.hzi===1?'有第0集':'无第0集'}}</p>
             <p>提交日期:<br>{{formateDate(bangumi.create_time)}}</p>
             <p>修改日期:<br>{{formateDate(bangumi.modify_time)}}</p>
-            <p v-if="bangumi.msg">修改意见:<br>
-              <el-tooltip placement="top">
-                <div slot="content">{{bangumi.msg}}</div>
-                 <span>{{getMsg}}</span>
-              </el-tooltip>
-            </p>
-            <p v-if="bangumi.manager_user">审核:
+            <p class="item-left">共{{bangumi.et}}集</p>
+            <p class="item-left">{{bangumi.hzi===1?'有第0集':'无第0集'}}</p>
+            <p class="item-left" v-if="bangumi.manager_user">审核:
               <el-popover
                       placement="top-start"
                       trigger="hover">
@@ -56,6 +50,12 @@
                   </a>
                 </span>
               </el-popover>
+            </p>
+            <p class="item-right-bottom" v-if="bangumi.msg">修改意见:<br>
+              <el-tooltip placement="top">
+                <div slot="content">{{bangumi.msg}}</div>
+                <span>{{getMsg}}</span>
+              </el-tooltip>
             </p>
           </div>
         </div>
@@ -112,6 +112,9 @@
       },
       isFailed(){
         return this.bangumi.pbs_name === "未被采纳";
+      },
+      isAuditting(){
+        return this.bangumi.pbs_name === "待审核";
       },
       getMsg(){
         if(this.bangumi.msg){
@@ -171,6 +174,9 @@
           type: "warning",
           callback: async (action, instance) => {
             if (action === "confirm") {
+              // if(instance.inputValue){
+              //
+              // }
               console.log("错误信息提示：" + instance.inputValue);
               let res = await API.declineUserPostBangumi(this.bangumi.id,2,instance.inputValue);
               let rd = res.data;
@@ -227,7 +233,7 @@
     border-radius: 4px;
     background-color: rgba(0,0,0,.1);
     width: 400px;
-    height: 345px;
+    height: 290px;
     box-shadow: 1px 2px 12px 0 rgba(0,0,0,.5);
   }
   .card-header {
@@ -254,6 +260,9 @@
   .failed {
     background-color: #9e0c0c;
   }
+  .auditting {
+    background-color: #f56c6c;
+  }
   .card-body {
     margin: 10px;
   }
@@ -263,21 +272,21 @@
   }
   .bangumi-info {
     display: inline-flex;
-    height: 230px;
+    height: 180px;
   }
   .thumb-wrapper {
     width: 160px;
-    height: 260px;
+    height: 90px;
     float: left;
   }
   .thumb {
     width: 160px;
-    height: 230px;
+    height: 90px;
   }
   .add-avatar {
     width: 160px;
-    height: 230px;
-    line-height: 230px;
+    height: 90px;
+    line-height: 90px;
     border: 1px solid #d9d9d9;
   }
   .add-avatar:hover {
@@ -340,5 +349,10 @@
   .manager-nick {
     display: inline-block;
   }
-
+  .item-left {
+    margin-left: -160px !important;
+  }
+  .item-right-bottom {
+    margin-top: -90px !important;
+  }
 </style>

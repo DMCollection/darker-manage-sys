@@ -24,10 +24,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="thumb" align="center" width="120">
+      <el-table-column label="thumb" align="center" width="180">
         <template slot-scope="scope">
           <!-- {{scope.row.thumb}} -->
-          <img width="100px" height="100px" :src="scope.row.thumb"/>
+          <img width="160px" height="90px" :src="scope.row.thumb"/>
         </template>
       </el-table-column>
 
@@ -452,8 +452,8 @@
 
 <style scoped>
 .upload-img {
-  width: 225px;
-  height: 300px;
+  width: 320px;
+  height: 180px;
 }
   .filter-container {
     margin-bottom: 20px;

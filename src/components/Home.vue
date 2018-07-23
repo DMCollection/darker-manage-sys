@@ -56,7 +56,14 @@
             <el-menu-item :route="{path: '/home/user'}" index="5-1">用户列表</el-menu-item>
             <el-menu-item index="#">锁定用户</el-menu-item>
           </el-submenu>
-          <el-menu-item :route="{path: '/home/apitest'}" index="6">
+
+          <el-submenu index="6">
+            <template slot="title"><i class="el-icon-message"></i>公告管理</template>
+            <el-menu-item :route="{path: '/home/announce'}" index="6-1">公告列表</el-menu-item>
+            <el-menu-item :route="{path: '/home/announce/new'}" index="6-2">新增公告</el-menu-item>
+          </el-submenu>
+
+          <el-menu-item :route="{path: '/home/apitest'}" index="7">
             API JSON数据展示
           </el-menu-item>
         </el-menu>
@@ -93,7 +100,7 @@
       UserList
     },
     methods: {
-      async logout() {
+      logout() {
         console.log("logout~!");
         let sendLogout = false;
         if (localStorage.getItem("token")) {
@@ -101,7 +108,7 @@
         }
 
         if (sendLogout) {
-          await API.logout();
+          API.logout();
         }
         localStorage.clear();
         window.location.href = "#/login";
@@ -117,7 +124,7 @@
 </script>
 
 <style scoped>
-  .avatar-wrapper {
+  .avatar-wrapper {s
     padding-top: 13px;
     cursor: pointer;
     position: relative;

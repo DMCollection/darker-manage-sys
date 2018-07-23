@@ -57,8 +57,8 @@ axios.interceptors.response.use(
     }
 );
 
-// const baseURL = "http://10.0.46.20:8080";
-const baseURL = "http://localhost:8080";
+const baseURL = "http://10.0.46.20:8080";
+// const baseURL = "";
 
 const login = data => {
   return axios.post(`${baseURL}/auth/login`, data);
@@ -295,6 +295,12 @@ const getUserPostBangumisByTime = (bt, et, pn, ps) => {
   });
 };
 
+const getUserPostBangumisByParams = params => {
+  return axios.get(`${baseURL}/admin/postBangumis`,{
+    params: params
+  });
+};
+
 const acceptUserPostBangumi = (id) => {
   return axios.put(`${baseURL}/admin/postBangumis/${id}`,
     {
@@ -312,6 +318,27 @@ const declineUserPostBangumi = (id, type, msg) => {
   );
 };
 /******** END of user-post-bangumi api********/
+
+const postNotice = data => {
+  return axios.post(`${baseURL}/admin/notices`,data);
+};
+
+const getNotices = pn => {
+  return axios.get(`${baseURL}/admin/notices`,{
+    params: {
+      pn: pn
+    }
+  });
+};
+
+const editNotice = data => {
+  return axios.put(`${baseURL}/admin/notices`,data);
+};
+
+const deleteNotice = id => {
+  return axios.delete(`${baseURL}/admin/notices/${id}`);
+};
+
 export default {
   baseURL,
   login,
@@ -350,7 +377,12 @@ export default {
   getUserPostBangumis,
   getUserPostBangumisByPbs,
   getUserPostBangumisByTime,
+  getUserPostBangumisByParams,
   acceptUserPostBangumi,
-  declineUserPostBangumi
+  declineUserPostBangumi,
+  getNotices,
+  postNotice,
+  editNotice,
+  deleteNotice
 
 };

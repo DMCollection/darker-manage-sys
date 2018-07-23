@@ -117,7 +117,7 @@
 
 <style scoped>
   .upload-img {
-    width: 225px;
-    height: 300px;
+    width: 320px;
+    height: 180px;
   }
 </style>
