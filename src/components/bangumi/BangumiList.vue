@@ -92,17 +92,22 @@
         </el-form-item>
 
         <el-form-item label="图片">
-          <el-upload
-                  class="avatar-uploader"
-                  :action="GLOBAL.uploadURL"
-                  :headers="GLOBAL.uploadHEADERS"
-                  name="image"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-            <img class="upload-img" v-show="temp.thumb" :src="temp.thumb">
-            <i v-show="!temp.thumb" class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <div class="avatar-uploader">
+            <img @click="toggleShow" class="upload-img" v-show="temp.thumb" :src="temp.thumb">
+            <i @click="toggleShow" v-show="!temp.thumb" class="el-icon-plus avatar-uploader-icon"></i>
+            <my-upload field="image"
+                       @crop-success="cropSuccess"
+                       @crop-upload-success="cropUploadSuccess"
+                       @crop-upload-fail="cropUploadFail"
+                       v-model="show"
+                       :width="960"
+                       :height="540"
+                       :noCircle="true"
+                       :url="GLOBAL.uploadURL"
+                       img-format="jpg"
+                       :headers="GLOBAL.uploadHEADERS"
+            ></my-upload>
+          </div>
         </el-form-item>
       </el-form>
 
@@ -119,6 +124,8 @@
 <script>
   import API from "../../api/api"
   import util from "../../util/util"
+  import 'babel-polyfill';
+  import myUpload from 'vue-image-crop-upload';
   export default {
     name: "bangumilist",
     data() {
@@ -140,8 +147,12 @@
         multiSelection: [],
         headers: {
           "Content-Type": "multipart/form-data"
-        }
-      };
+        },
+        show: false
+      }
+    },
+    components:{
+      "my-upload": myUpload
     },
     mounted() {
       console.log("getDefaultBangumis!!!");
@@ -350,28 +361,25 @@
       formateDate(ts) {
         return util.formateDate(ts);
       },
-      handleAvatarSuccess(res, file) {
-        console.log("handleAvatarSucc invoked!");
+      toggleShow() {
+        this.show = !this.show;
+      },
+      cropSuccess(imgDataUrl, field) {
+        console.log('-------- crop success --------');
+      },
+      cropUploadSuccess(res, field) {
+        console.log('-------- upload success --------');
         console.log(res);
-        console.log(file);
         let link = res.data.link;
         link = link.substring(link.lastIndexOf('/'));
         console.log("link:",link);
         this.temp.thumb = this.GLOBAL.imgURL+link;
         console.log(this.temp.thumb);
       },
-      beforeAvatarUpload(file) {
-        console.log("file ", file);
-        // const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        // if (!isJPG) {
-        //   this.$message.error("上传头像图片只能是 JPG 格式!");
-        // }
-        if (!isLt2M) {
-          this.$message.error("上传头像图片大小不能超过 2MB!");
-        }
-        return isLt2M;
+      cropUploadFail(status, field) {
+        console.log('-------- upload fail --------');
+        console.log(status);
+        console.log('field: ' + field);
       },
       cancelAddBangumi() {
         this.showAddBangumiDialog = false;

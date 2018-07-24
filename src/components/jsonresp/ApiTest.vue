@@ -36,6 +36,11 @@
       <tree-view :data="imgResult">
       </tree-view>
     </div>
+    <div style="margin-top: 100px;">
+      <el-input v-model="myURL"></el-input>
+      <el-button @click="sendRequest">发送</el-button>
+      <tree-view :data="myResult"></tree-view>
+    </div>
   </div>
 </template>
 
@@ -54,7 +59,9 @@ import API from "../../api/api"
           modifiable: false
         },
         imgurl: "",
-        imgResult: ""
+        imgResult: "",
+        myURL: "",
+        myResult: ""
       }
     },
     methods:{
@@ -95,6 +102,15 @@ import API from "../../api/api"
         }
         return isLt2M;
       },
+      async sendRequest() {
+        if(this.myURL === '')
+          return
+        let res = await API.apiRequest(this.myURL);
+        let rd = res.data;
+        if(rd.code === 0){
+          this.myResult = rd.data;
+        }
+      }
     }
   }
 </script>

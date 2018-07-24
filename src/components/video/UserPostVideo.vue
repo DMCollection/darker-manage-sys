@@ -46,10 +46,16 @@
           </template>
         </el-table-column>
 
+        <el-table-column label="score" width="100">
+          <template slot-scope="scope">
+            <span>{{scope.row.score}}</span>
+          </template>
+        </el-table-column>
+
         <el-table-column fixed="right" align="center" min-width="120" label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-check" circle></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            <el-button type="primary" @click="acceptVideo(scope.row)" icon="el-icon-check" circle></el-button>
+            <el-button type="danger" @click="deleteVideo(scope.row.videoId)" icon="el-icon-delete" circle></el-button>
             <!--<el-button type="warning" icon="el-icon-edit" circle @click="toEpisode(scope.row.bangumiId)"></el-button>-->
           </template>
         </el-table-column>
@@ -69,9 +75,10 @@
 
 <script>
   import API from "../../api/api"
+
   export default {
     name: "UserPostVideo",
-    data(){
+    data() {
       return {
         videos: [],
         page: "",
@@ -79,10 +86,10 @@
       }
     },
     methods: {
-      async initVideos(){
-        let res = await API.getVideos(0,1,20);
+      async initVideos() {
+        let res = await API.getVideos(0, 1, 20);
         let rd = res.data;
-        if(rd.code === 0){
+        if (rd.code === 0) {
           this.videos = rd.data.videos;
           this.page = rd.data.pageInfo;
           this.loading = false;
@@ -98,7 +105,7 @@
       },
       async handleSizeChange(val) {
         console.log("每页" + val + "条");
-        let res = await API.getVideos(0,1,val);
+        let res = await API.getVideos(0, 1, val);
         let rd = res.data;
         if (rd.code === 0) {
           this.videos = rd.data.videos;
@@ -127,17 +134,77 @@
           });
         }
       },
-      formateDate(ts){
-        let d = new Date(ts);
-        return d.getFullYear()+"/"+this.fillZero(d.getMonth() + 1) +"/"+
-            this.fillZero(d.getDate()) + " "+this.fillZero(d.getHours()) + ':' +
-            this.fillZero(d.getMinutes()) + ":"+this.fillZero(d.getSeconds());
+      async acceptVideo(video) {
+        video.isMatch = 1;
+        this.$confirm("添加该视频匹配信息？", "提示", {
+          confirmButtonText: "OK",
+          cancelButtonText: "不行",
+          type: "warning",
+          callback: async (action) => {
+            if (action === "confirm") {
+              let res = await API.editVideo(video.videoId, video);
+              let rd = res.data;
+              if (rd.code === 0) {
+                this.$message({
+                  showClose: true,
+                  message: "已添加对应视频匹配信息",
+                  type: "success"
+                });
+                this.intervalId = setTimeout(() => {
+                  this.videos = this.videos.filter(t => t.videoId != video.videoId);
+                }, 2000);
+              }
+              else {
+                this.$message({
+                  showClose: true,
+                  message: rd.msg,
+                  type: "error"
+                });
+              }
+            }
+          }
+        });
       },
-      fillZero(num){
-        return num<10?'0'+num:num;
+      async deleteVideo(vid) {
+        this.$confirm("删除该视频匹配信息？", "提示", {
+          confirmButtonText: "删除",
+          cancelButtonText: "取消",
+          type: "warning",
+          callback: async (action) => {
+            if (action === "confirm") {
+              console.log("vid:",vid);
+              let res = await API.deleteVideo(vid);
+              let rd = res.data;
+              if (rd.code === 0) {
+                this.$message({
+                  showClose: true,
+                  message: "已删除对应视频匹配信息",
+                  type: "success"
+                });
+                this.videos = this.videos.filter(t => t.videoId != vid);
+              }
+              else {
+                this.$message({
+                  showClose: true,
+                  message: rd.msg,
+                  type: "error"
+                });
+              }
+            }
+          }
+        });
+      },
+      formateDate(ts) {
+        let d = new Date(ts);
+        return d.getFullYear() + "/" + this.fillZero(d.getMonth() + 1) + "/" +
+            this.fillZero(d.getDate()) + " " + this.fillZero(d.getHours()) + ':' +
+            this.fillZero(d.getMinutes()) + ":" + this.fillZero(d.getSeconds());
+      },
+      fillZero(num) {
+        return num < 10 ? '0' + num : num;
       }
     },
-    created(){
+    created() {
       console.log("UserPostVIdeo.vue created!!!");
       this.initVideos();
     }

@@ -8,7 +8,7 @@
             <el-input v-model="loginInfo.principal"></el-input>
            </el-form-item>
            <el-form-item label="密钥">
-           <el-input type="password" v-model="loginInfo.password"></el-input>
+           <el-input @keyup.enter.native="login" type="password" v-model="loginInfo.password"></el-input>
            </el-form-item>
            <el-form-item style="text-align:left">
               <el-button @click="login" type="primary">登入</el-button>

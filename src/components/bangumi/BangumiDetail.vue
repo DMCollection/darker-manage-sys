@@ -31,8 +31,10 @@
       </div>
       <div v-show="page.totalSize && page.totalSize >10" class="page-info">
         <div v-if="!loading" class="pagination-container">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="page.pageNumber"
-                         :page-sizes="[10,20,30, 50]" :page-size="page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="page.totalSize">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                         :current-page.sync="page.pageNumber"
+                         :page-sizes="[10,20,30, 50]" :page-size="page.pageSize"
+                         layout="total, sizes, prev, pager, next, jumper" :total="page.totalSize">
           </el-pagination>
         </div>
       </div>
@@ -77,6 +79,7 @@
 <script>
   import API from "../../api/api"
   import util from "../../util/util"
+
   export default {
     name: "BangumiDetail",
     data() {
@@ -102,7 +105,7 @@
         }
       },
       async getBangumiById(bid) {
-        let res = await  API.getBangumiById(bid);
+        let res = await API.getBangumiById(bid);
         let rd = res.data;
         console.log("getBangumiById:", rd);
         if (rd.code === 0) {
@@ -138,9 +141,9 @@
         this.getNumOfCommentsByEid(episode.epId);
         console.log("handle click epIndex!");
       },
-      handelDelVideo(vid){
-        console.log("del video:",vid);
-        this.$confirm("确定要删除该视频？", "提示",{
+      handelDelVideo(vid) {
+        console.log("del video:", vid);
+        this.$confirm("确定要删除该视频？", "提示", {
           confirmButtonText: "删除",
           cancelButtonText: "取消",
           type: "warning",
@@ -148,9 +151,9 @@
             if (action === "confirm") {
               let res = await API.deleteVideo(vid);
               let rd = res.data;
-              console.log("delete video result:",rd);
-              if(rd.code === 0){
-                this.videos = this.videos.filter(t=>t.videoId!=vid);
+              console.log("delete video result:", rd);
+              if (rd.code === 0) {
+                this.videos = this.videos.filter(t => t.videoId != vid);
                 this.$message({
                   showClose: true,
                   message: "已删除",
@@ -173,7 +176,7 @@
       },
       async handleSizeChange(val) {
         console.log("每页" + val + "条");
-        let res = await API.getEpisodesByBangumiId(this.bangumiInfo.bangumiId,1,val);
+        let res = await API.getEpisodesByBangumiId(this.bangumiInfo.bangumiId, 1, val);
         let rd = res.data;
         console.log(rd);
         if (rd.code === 0) {
@@ -189,7 +192,7 @@
       },
       async handleCurrentChange(val) {
         console.log("curpage:" + val);
-        let res = await API.getEpisodesByBangumiId(this.bangumiInfo.bangumiId,val,this.page.pageSize);
+        let res = await API.getEpisodesByBangumiId(this.bangumiInfo.bangumiId, val, this.page.pageSize);
         let rd = res.data;
         console.log(rd);
         if (rd.code === 0) {
@@ -203,35 +206,34 @@
           });
         }
       },
-      async delEpisode(eid){
-        console.log("delEpisode:",eid);
-        this.$confirm("确定要删除该集？", "提示",{
+      async delEpisode(eid) {
+        console.log("delEpisode:", eid);
+        this.$confirm("确定要删除该集？", "提示", {
           confirmButtonText: "删除",
           cancelButtonText: "取消",
           type: "warning",
           callback: async (action) => {
             if (action === "confirm") {
-              // let res = await API.deleteVideo(vid);
-              // let rd = res.data;
-              // console.log("delete video result:",rd);
-              // if(rd.code === 0){
-              //   this.videos = this.videos.filter(t=>t.videoId!=vid);
-              this.curEpisodeInfo = "";
-              this.videos = "";
-              this.episodes = this.episodes.filter(t=>t.epId!=eid);
+              let res = await API.deleteEpisode(eid);
+              let rd = res.data;
+              if (rd.code === 0) {
+                this.curEpisodeInfo = "";
+                this.videos = "";
+                this.episodes = this.episodes.filter(t => t.epId != eid);
                 this.$message({
                   showClose: true,
                   message: "已删除",
                   type: "success"
                 });
               }
-              // else {
-              //   this.$message({
-              //     showClose: true,
-              //     message: rd.msg,
-              //     type: "error"
-              //   });
-              // }
+              else {
+                this.$message({
+                  showClose: true,
+                  message: rd.msg,
+                  type: "error"
+                });
+              }
+            }
           }
         });
       }
@@ -256,11 +258,13 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #303133;
   }
+
   .bangumi-img-wrapper {
     width: 320px;
     height: 180px;
     float: left;
   }
+
   .bangumi-img {
     width: 320px;
     height: 180px;
@@ -269,6 +273,7 @@
   .bangumi-other {
     margin-left: 330px;
   }
+
   .page-info {
     margin-top: 20px;
   }
@@ -286,13 +291,16 @@
     margin-top: 20px;
     border-top: 1px solid #303133;
   }
+
   .v-operation {
     float: right;
     color: #cccccc;
   }
+
   .related-videos {
     display: inline-block;
   }
+
   .r-video {
     border: 1px solid;
     padding: 5px;
@@ -301,6 +309,7 @@
     margin: 10px;
     display: inline-block;
   }
+
   .del-ep-icon {
     color: #ab4b4b;
     margin-left: 13px;

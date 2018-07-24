@@ -113,10 +113,8 @@ const deleteUser = (uid) => {
   return axios.delete(`${baseURL}/admin/users/${uid}`);
 };
 
-const lockUser = (uid, time, pwd) => {
-  return axios.put(`${baseURL}/admin/users/${uid}/lock/1/${time}`,{
-    pwd: pwd
-  });
+const lockUser = (uid, time) => {
+  return axios.put(`${baseURL}/admin/users/${uid}/lock/1/${time}`);
 };
 
 const unlockUser = (uid) => {
@@ -339,6 +337,20 @@ const deleteNotice = id => {
   return axios.delete(`${baseURL}/admin/notices/${id}`);
 };
 
+const apiRequest = (url) =>{
+  return axios.get(`${baseURL}${url}`);
+};
+
+const getOnlineUsers = (pn, ps, t) => {
+  return axios.get(`${baseURL}/admin/online`,{
+    params: {
+      t: t,
+      pn: pn,
+      ps: ps
+    }
+  });
+};
+
 export default {
   baseURL,
   login,
@@ -383,6 +395,7 @@ export default {
   getNotices,
   postNotice,
   editNotice,
-  deleteNotice
-
+  deleteNotice,
+  apiRequest,
+  getOnlineUsers
 };

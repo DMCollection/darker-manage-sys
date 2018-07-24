@@ -25,7 +25,7 @@
                   trigger="hover">
             <div class="short-user-info">
               <div class="u-avatar-wrapper">
-                <img class="u-avatar-img" :src="scope.row.face"/>
+                <img class="u-avatar-img" :src="scope.row.face?scope.row.face:'/static/akari.jpg'"/>
               </div>
               <div class="u-other-info">
                 <span class="user-nick-link">
@@ -67,7 +67,7 @@
     <el-table-column align="center"  label="注册时间" width="180" >
       <template slot-scope="scope">
         <!-- <i class="el-icon-time"></i> -->
-        <span>{{formateData(scope.row.createTime)}}</span>
+        <span>{{scope.row.createTime | formatDate}}</span>
       </template>
     </el-table-column>
 
@@ -87,9 +87,9 @@
 
       </template>
     </el-table-column>
-    <el-table-column align="center"  label="锁定时长(m)" width="150">
+    <el-table-column align="center"  label="解除锁定日期" width="150">
       <template slot-scope="scope">
-        <span>{{scope.row.lockTime}}</span>
+        <span>{{scope.row.lockTime | formatDate}}</span>
       </template>
     </el-table-column>
 
@@ -157,7 +157,8 @@
 
 <script>
   import API from "../../api/api"
-  import util from "../../util/util"
+  import {formatDate} from "../../global/time";
+
   export default {
     name: "UserList",
     data() {
@@ -183,6 +184,12 @@
         ],
         checkList: []
       };
+    },
+    filters:{
+      formatDate(time){
+        let date = new Date(time);
+        return formatDate(date,"yyyy-MM-dd hh:mm")
+      }
     },
     mounted() {
       console.log("mounted! getUserList...");
@@ -219,9 +226,6 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      },
-      formateData(ts){
-        return util.formateDate(ts);
       },
       handleEdit(userId, user) {
         console.log("userId:" + userId);
@@ -365,7 +369,6 @@
               console.log("封禁时间：" + instance.inputValue);
               let res = await API.lockUser(
                   row.userId,
-                  1,
                   instance.inputValue
               );
               let rd = res.data;

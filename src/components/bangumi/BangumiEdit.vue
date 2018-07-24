@@ -15,17 +15,22 @@
         </el-form-item>
 
         <el-form-item label="图片">
-          <el-upload
-                  class="avatar-uploader"
-                  :action="GLOBAL.uploadURL"
-                  name="image"
-                  :headers="GLOBAL.uploadHEADERS"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-            <img class="upload-img" v-if="imageUrl" :src="imageUrl">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <div class="upload-container">
+            <img @click="toggleShow" class="upload-img" v-if="imageUrl" :src="imageUrl">
+            <i v-else @click="toggleShow" class="el-icon-plus avatar-uploader-icon"></i>
+            <my-upload field="image"
+                       @crop-success="cropSuccess"
+                       @crop-upload-success="cropUploadSuccess"
+                       @crop-upload-fail="cropUploadFail"
+                       v-model="show"
+                       :width="960"
+                       :height="540"
+                       :noCircle="true"
+                       :url="GLOBAL.uploadURL"
+                       :headers="GLOBAL.uploadHEADERS"
+                       img-format="jpg"
+            ></my-upload>
+          </div>
         </el-form-item>
       </el-form>
       <el-button @click="handleAddBangumi" type="primary">添加</el-button>
@@ -39,7 +44,8 @@
 
 <script>
   import API from "../../api/api"
-
+  import 'babel-polyfill';
+  import myUpload from 'vue-image-crop-upload';
   export default {
     name: "BangumiEdit",
     data() {
@@ -50,33 +56,51 @@
           thumb: "",
           episodeTotal: ""
         },
-        imageUrl: ""
+        imageUrl: "",
+        show: false
       }
     },
+    components:{
+      "my-upload": myUpload
+    },
     methods: {
-      handleAvatarSuccess(res, file) {
-        console.log("handleAvatarSucc invoked!");
+      toggleShow() {
+        this.show = !this.show;
+      },
+      /**
+       * crop success
+       *
+       * [param] imgDataUrl
+       * [param] field
+       */
+      cropSuccess(imgDataUrl, field) {
+        console.log('-------- crop success --------');
+      },
+      /**
+       * upload success
+       *
+       * [param] jsonData   服务器返回数据，已进行json转码
+       * [param] field
+       */
+      cropUploadSuccess(res, field) {
+        console.log('-------- upload success --------');
         console.log(res);
-        console.log(file);
         let link = res.data.link;
         link = link.substring(link.lastIndexOf('/'));
         console.log("link:",link);
         this.temp.thumb = this.GLOBAL.imgURL+link;
-        console.log(this.temp.thumb);
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.imageUrl = this.GLOBAL.imgURL+link;
       },
-      beforeAvatarUpload(file) {
-        console.log("file ", file);
-        // const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        // if (!isJPG) {
-        //   this.$message.error("上传头像图片只能是 JPG 格式!");
-        // }
-        if (!isLt2M) {
-          this.$message.error("上传头像图片大小不能超过 2MB!");
-        }
-        return isLt2M;
+      /**
+       * upload fail
+       *
+       * [param] status    server api return error status, like 500
+       * [param] field
+       */
+      cropUploadFail(status, field) {
+        console.log('-------- upload fail --------');
+        console.log(status);
+        console.log('field: ' + field);
       },
       async handleAddBangumi() {
         console.log("handle add bangumi!");

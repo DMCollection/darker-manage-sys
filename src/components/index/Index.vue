@@ -6,7 +6,7 @@
             <span>在线用户</span>
           </div>
           <div class="text item">
-            {{sysInfo.authOnline}}
+            <a @click="getOnlineUsers" href="javascript:void(0);">{{sysInfo.authOnline}}</a>
           </div>
         </el-card>
 
@@ -60,7 +60,7 @@
             <span>今日在线用户</span>
           </div>
           <div class="text item">
-            {{sysInfo.maxAuthOnline}}
+            <a @click="getTodayOnlineUsers" href="javascript:void(0);">{{sysInfo.maxAuthOnline}}</a>
           </div>
         </el-card>
 
@@ -109,6 +109,14 @@
           let rd = res.data;
           console.log("systemInfo:",rd.data);
           this.sysInfo = rd.data;
+        },
+        getOnlineUsers(){
+          console.log("get online users.");
+          this.$router.push({name:'onlineuser'});
+        },
+        getTodayOnlineUsers(){
+          console.log("get today online users.");
+          this.$router.push({name:'onlineuser',params:{today:'today'}});
         }
       },
       created(){
@@ -140,6 +148,17 @@
     height: 150px;
     margin: 10px;
     display: inline-block;
+  }
+
+  .box-card .text a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .box-card .text a:hover{
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
   }
 </style>
 <style>

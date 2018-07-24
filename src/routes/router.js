@@ -8,6 +8,7 @@ import Index from "../components/index/Index.vue";
 
 import UserList from "../components/user/UserList.vue";
 import UserDetail from "../components/user/UserDetail.vue";
+import OnlineUsersList from "../components/user/OnlineUserList.vue";
 
 import BangumiList from "../components/bangumi/BangumiList.vue";
 import BangumiDetail from "../components/bangumi/BangumiDetail.vue";
@@ -58,6 +59,7 @@ const routes = [
       { path: "danmaku", component: DanmakuList, name: "danmakulist"},
       { path: "announce", component: AnnounceList, name: "announcelist"},
       { path: "announce/new", component: AnnouncePost, name: "announcepost"},
+      { path: "online/users/:today", component: OnlineUsersList, name: "onlineuser"},
     ]
   },
 ];

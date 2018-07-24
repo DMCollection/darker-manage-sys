@@ -3,17 +3,20 @@
     <div class="page-container">
       <div class="title-container">
         <h1>{{title}}</h1>
-        <div><span>发布时间：8102/02/22</span></div>
+        <div>
+          <span ><i class="el-icon-date" title="发布时间" style="padding-right: 5px"></i>8102/12/23 12:00</span>
+          <span style="margin-left: 15px"><i class="el-icon-view" title="阅读量" style="padding-right: 5px"></i>233</span>
+        </div>
       </div>
       <div class="content-container">
         <div class="ctx-text" v-html="content">
         </div>
       </div>
       <div class="comment-container">
-        COMMENT
+
       </div>
       <div class="bottom-container">
-        底部ggg
+
       </div>
     </div>
   </div>
@@ -42,8 +45,7 @@
     text-align: center;
   }
   .title-container {
-    border-bottom: 1px solid white;
-    margin: 20px 0;
+    margin: 20px 0 60px 0;
   }
   .title-container div {
     margin-bottom: 10px;
@@ -52,7 +54,6 @@
     text-align: left;
     width: 800px;
     display: inline-block;
-    border: 1px solid white;
     margin-top: 60px;
   }
   .content-container {

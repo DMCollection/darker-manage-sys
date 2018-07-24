@@ -10,7 +10,7 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
-          <img class="user-avatar-img" :src="userInfo.face?userInfo.face:''"/>
+          <img class="user-avatar-img" :src="userInfo.face?userInfo.face:'/static/akari.jpg'"/>
         </el-upload>
       </div>
     </div>

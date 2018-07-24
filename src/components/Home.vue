@@ -5,7 +5,7 @@
       <el-header style="background-color:rgba(20,20,34,0.9);text-align: right; font-size: 12px">
         <el-dropdown>
           <div class="avatar-wrapper">
-            <img class="avatar" :src="userInfo.face?userInfo.face:'/static/rm.jpg'">
+            <img class="avatar" :src="userInfo.face?userInfo.face:'/static/akari.jpg'">
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>{{userInfo.nick}}</el-dropdown-item>
@@ -124,7 +124,7 @@
 </script>
 
 <style scoped>
-  .avatar-wrapper {s
+  .avatar-wrapper {
     padding-top: 13px;
     cursor: pointer;
     position: relative;
