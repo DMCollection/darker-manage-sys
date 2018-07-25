@@ -57,8 +57,8 @@ axios.interceptors.response.use(
     }
 );
 
-const baseURL = "http://10.0.46.20:8080";
-// const baseURL = "";
+// const baseURL = "http://10.0.46.20:8080";
+const baseURL = "";
 
 const login = data => {
   return axios.post(`${baseURL}/auth/login`, data);
