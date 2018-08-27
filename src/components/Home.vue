@@ -61,6 +61,7 @@
             <template slot="title"><i class="el-icon-message"></i>公告管理</template>
             <el-menu-item :route="{path: '/home/announce'}" index="6-1">公告列表</el-menu-item>
             <el-menu-item :route="{path: '/home/announce/new'}" index="6-2">新增公告</el-menu-item>
+            <el-menu-item :route="{path: '/home/snotice'}" index="6-3">系统消息</el-menu-item>
           </el-submenu>
 
           <el-menu-item :route="{path: '/home/apitest'}" index="7">

@@ -27,6 +27,7 @@ import DanmakuList from "../components/danmaku/DanmakuList.vue";
 import AnnounceList from "../components/announce/AnnounceList.vue";
 import AnnouncePost from "../components/announce/AnnouncePost.vue";
 import AnnouncePreview from "../components/announce/AnnouncePreview.vue";
+import SystemNotice from "../components/announce/SysNotice.vue"
 
 Vue.use(VueRouter);
 
@@ -59,6 +60,7 @@ const routes = [
       { path: "danmaku", component: DanmakuList, name: "danmakulist"},
       { path: "announce", component: AnnounceList, name: "announcelist"},
       { path: "announce/new", component: AnnouncePost, name: "announcepost"},
+      { path: "snotice", component: SystemNotice, name: "systemnotice"},
       { path: "online/users/:today", component: OnlineUsersList, name: "onlineuser"},
     ]
   },
