@@ -91,6 +91,22 @@
           </div>
         </el-card>
       </div>
+      <div class="wellcome-container">
+        <div class="wellc-title">当前欢迎页内容</div>
+        <div class="w-content">
+          <p v-if="!edit">{{wText}}</p>
+          <p v-else>
+            <el-input style="width: 400px" v-model="tmpText"></el-input>
+          </p>
+          <div v-if="!edit" @click="handleEdit" class="edit-wellcome">
+            <i class="el-icon-edit edit-icon"></i>
+          </div>
+          <div v-else class="edit-wellcome">
+            <i style="margin-right: 5px" @click="handleSave" class="el-icon-success save-icon"></i>
+            <i @click="handleDiscard" class="el-icon-error discard-icon"></i>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -100,7 +116,10 @@
       name: "Index",
       data(){
         return {
-          sysInfo: ""
+          sysInfo: "",
+          edit: false,
+          wText: "",
+          tmpText: ""
         }
       },
       methods:{
@@ -117,10 +136,51 @@
         getTodayOnlineUsers(){
           console.log("get today online users.");
           this.$router.push({name:'onlineuser',params:{today:'today'}});
+        },
+        async initWellcomeText(){
+          let res = await API.getWellcome();
+          let rd = res.data;
+          if(rd.code === 0){
+            this.wText = rd.data;
+          }
+          else {
+            console.log("get wellcomeText err.");
+          }
+        },
+        async updateWellcomeText(text){
+          if(text === ""){
+            this.$message({
+              message: "内容为空",
+              type: "error"
+            });
+            return
+          }
+          let res = await API.setWellcome({sentence:text});
+          let rd = res.data;
+          console.log("rd:",rd.data);
+          if(rd.code === 0){
+            this.wText = text;
+            this.edit = false;
+            this.$message({
+              message: "修改成功",
+              type: "success"
+            });
+          }
+        },
+        handleEdit(){
+          this.edit = true;
+          this.tmpText = this.wText;
+        },
+        handleSave(){
+          this.updateWellcomeText(this.tmpText);
+        },
+        handleDiscard(){
+          this.edit = false;
         }
       },
       created(){
         this.initSystemInfo();
+        this.initWellcomeText();
       }
     }
 </script>
@@ -159,6 +219,19 @@
     cursor: pointer;
     color: blue;
     text-decoration: underline;
+  }
+  .wellcome-container {
+    font-size: 20px;
+  }
+  .wellcome-container .wellc-title {
+    color: #d8d8d8;
+  }
+  .edit-wellcome {
+    display: inline-block;
+    margin-left: 20px;
+  }
+  .w-content p {
+    display: inline-block;
   }
 </style>
 <style>

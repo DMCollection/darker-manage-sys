@@ -43,6 +43,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="播放数">
+        <template slot-scope="scope">
+          <span>{{scope.row.viewCount}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="创建时间" width="200">
         <template slot-scope="scope">
           <span>{{formateDate(scope.row.createTime)}}</span>
@@ -76,7 +82,7 @@
     </div>
 
     <!-- 新增弹窗 -->
-    <el-dialog :before-close="clearTempBangumiInfo" title="添加番剧" :visible.sync="showAddBangumiDialog">
+    <el-dialog :before-close="clearTempBangumiInfo" title="添加/修改番剧" :visible.sync="showAddBangumiDialog">
       <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='margin-left:50px;'>
 
         <el-form-item v-show="temp.bangumiId!=''" label="id">
@@ -89,6 +95,10 @@
 
         <el-form-item label="总集数">
           <el-input v-model="temp.episodeTotal"></el-input>
+        </el-form-item>
+
+        <el-form-item label="播放数">
+          <el-input v-model="temp.viewCount"></el-input>
         </el-form-item>
 
         <el-form-item label="图片">
@@ -228,6 +238,7 @@
         this.temp.episodeTotal = bangumi.episodeTotal;
         this.temp.thumb = bangumi.thumb;
         this.temp.bangumiId = bangumi.bangumiId;
+        this.temp.viewCount = bangumi.viewCount;
         console.log("edit index:", index);
         this.showAddBangumiDialog = true;
       },
@@ -387,6 +398,7 @@
         this.temp.thumb = "";
         this.temp.episodeTotal = "";
         this.temp.bangumiId = "";
+        this.temp.viewCount = "";
       },
 
       async handleSizeChange(val) {

@@ -15,6 +15,9 @@
         <div class="b-item">
           <p>总集数：{{bangumiInfo.episodeTotal}}</p>
         </div>
+        <div>
+          <p>播放数：{{bangumiInfo.viewCount}}</p>
+        </div>
         <div class="b-item">
           <p>创建时间：{{formateDate(bangumiInfo.createTime)}}</p>
         </div>
@@ -57,9 +60,10 @@
               <i class="el-icon-delete v-del-icon"></i>
             </div>
             <p>videoId:
-              <el-tooltip class="item" effect="dark" :content="video.videoId" placement="top">
-                <span>{{video.videoId.substring(0,6)}}</span>
-              </el-tooltip>
+              <!--<el-tooltip class="item" effect="dark" :content="video.videoId" placement="top">-->
+                <!--<span>{{video.videoId.substring(0,6)}}</span>-->
+              <!--</el-tooltip>-->
+                <span>{{video.videoId}}</span>
             </p>
             <p>vMD5:
               <el-tooltip class="item" effect="dark" :content="video.vMd5" placement="top">
@@ -94,6 +98,13 @@
       }
     },
     methods: {
+      async updateBangumiInfo(bid,bangumi){
+        let res = await API.editBangumi(bid,bangumi);
+        let rd = res.data;
+        if(rd.code === 0){
+          
+        }
+      },
       async getEpisodesByBangumiId(bid) {
         let res = await API.getEpisodesByBangumiId(bid, 1, 20);
         let rd = res.data;
@@ -254,7 +265,7 @@
 
 <style scoped>
   .bangumi-info {
-    height: 200px;
+    height: 220px;
     margin-bottom: 20px;
     border-bottom: 1px solid #303133;
   }

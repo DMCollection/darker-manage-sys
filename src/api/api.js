@@ -83,7 +83,7 @@ const getReplies = (ep_id, page_number) => {
 
 
 const getSystemMainInfo = () => {
-  return axios.get(`${baseURL}/admin/mainInfo`);
+  return axios.get(`${baseURL}/admin/index/mainInfo`);
 };
 
 /************** BEGIN of adminUser api***********/
@@ -386,7 +386,15 @@ const getSystemNotice = (pn, ps) => {
       pn: pn,
       ps: ps
     }
-  })
+  });
+};
+
+const getWellcome = ()=> {
+  return axios.get(`${baseURL}/index/is`);
+};
+
+const setWellcome = data => {
+  return axios.post(`${baseURL}/admin/index/is`,data);
 };
 
 export default {
@@ -440,5 +448,7 @@ export default {
   sendSystemNoticeByIds,
   deleteSystemNotice,
   deleteIdsSystemNotice,
-  getSystemNotice
+  getSystemNotice,
+  getWellcome,
+  setWellcome
 };
