@@ -57,9 +57,9 @@ axios.interceptors.response.use(
   }
 );
 
-// const baseURL = "http://10.0.46.20:8080";
+const baseURL = "http://10.0.46.20:8080";
 // const baseURL = "";
-const baseURL = "http://test.echisan.cn:8888"
+// const baseURL = "http://test.echisan.cn:8888";
 
 const login = data => {
   return axios.post(`${baseURL}/auth/login`, data);
@@ -397,6 +397,40 @@ const setWellcome = data => {
   return axios.post(`${baseURL}/admin/index/is`,data);
 };
 
+const addRecommend = data => {
+  return axios.post(`${baseURL}/admin/index/recommend`,data);
+};
+
+const updateRecommend = (id, data) => {
+  return axios.put(`${baseURL}/admin/index/recommend/${id}`,data);
+};
+
+const deleteRecommend = id => {
+  return axios.delete(`${baseURL}/admin/index/recommend/${id}`);
+};
+
+const getRecommends = (pn,ps,sort) => {
+  return axios.get(`${baseURL}/admin/index/recommend`,{
+    params:{
+      pn: pn,
+      ps: ps,
+      sort: sort
+    }
+  });
+};
+
+const getRecommendById = id => {
+  return axios.get(`${baseURL}/admin/index/recommend/${id}`);
+};
+
+const getLogs = () => {
+  return axios.get(`${baseURL}/actuator/logfile`);
+};
+
+const shutDownApp = () => {
+  return axios.post(`${baseURL}/actuator/shutdown`);
+};
+
 export default {
   baseURL,
   login,
@@ -450,5 +484,12 @@ export default {
   deleteIdsSystemNotice,
   getSystemNotice,
   getWellcome,
-  setWellcome
+  setWellcome,
+  addRecommend,
+  updateRecommend,
+  deleteRecommend,
+  getRecommends,
+  getRecommendById,
+  getLogs,
+  shutDownApp
 };

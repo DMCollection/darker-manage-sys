@@ -64,7 +64,11 @@
             <el-menu-item :route="{path: '/home/snotice'}" index="6-3">系统消息</el-menu-item>
           </el-submenu>
 
-          <el-menu-item :route="{path: '/home/apitest'}" index="7">
+          <el-menu-item :route="{path: '/home/log'}" index="7">
+            后台系统日志
+          </el-menu-item>
+
+          <el-menu-item :route="{path: '/home/apitest'}" index="8">
             API JSON数据展示
           </el-menu-item>
         </el-menu>

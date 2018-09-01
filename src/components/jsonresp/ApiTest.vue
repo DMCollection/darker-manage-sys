@@ -40,6 +40,11 @@
       <el-input v-model="myURL"></el-input>
       <el-button @click="sendRequest">发送</el-button>
       <tree-view :data="myResult"></tree-view>
+      <!--<div class="log-content">-->
+        <!--<div v-for="(log,index) in splitRes">-->
+          <!--<p style="width: 800px">{{log}}</p>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -61,7 +66,13 @@ import API from "../../api/api"
         imgurl: "",
         imgResult: "",
         myURL: "",
-        myResult: ""
+        myResult: "",
+        splitRes: ""
+      }
+    },
+    computed:{
+      getLogText(){
+        return this.myResult?this.myResult.substring(0,2000).replace(/\n/g, "<br>"):"no result";
       }
     },
     methods:{
@@ -107,9 +118,7 @@ import API from "../../api/api"
           return
         let res = await API.apiRequest(this.myURL);
         let rd = res.data;
-        if(rd.code === 0){
-          this.myResult = rd.data;
-        }
+        this.myResult = rd;
       }
     }
   }
