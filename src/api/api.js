@@ -431,6 +431,20 @@ const shutDownApp = () => {
   return axios.post(`${baseURL}/actuator/shutdown`);
 };
 
+const getReorts = (pn, ps, type) => {
+  return axios.get(`${baseURL}/admin/reports`,{
+    params:{
+      pn: pn,
+      ps: ps,
+      type: type
+    }
+  });
+};
+
+const handleReport = (id,data) => {
+  return axios.post(`${baseURL}/admin/reports/${id}`, data);
+};
+
 export default {
   baseURL,
   login,
@@ -491,5 +505,7 @@ export default {
   getRecommends,
   getRecommendById,
   getLogs,
-  shutDownApp
+  shutDownApp,
+  getReorts,
+  handleReport
 };

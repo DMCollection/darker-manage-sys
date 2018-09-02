@@ -23,6 +23,7 @@ import VideoDetail from "../components/video/VideoDetail.vue";
 import UserPostVideo from "../components/video/UserPostVideo.vue";
 
 import DanmakuList from "../components/danmaku/DanmakuList.vue";
+import ReportList from "../components/danmaku/ReportList.vue";
 
 import AnnounceList from "../components/announce/AnnounceList.vue";
 import AnnouncePost from "../components/announce/AnnouncePost.vue";
@@ -59,6 +60,7 @@ const routes = [
       { path: "videodetail/:vid", component: VideoDetail, name: "videodetail"},
       { path: "video/userpost", component: UserPostVideo, name: "userpostvideo"},
       { path: "danmaku", component: DanmakuList, name: "danmakulist"},
+      { path: "reportlist", component: ReportList, name: "reportlist"},
       { path: "announce", component: AnnounceList, name: "announcelist"},
       { path: "announce/new", component: AnnouncePost, name: "announcepost"},
       { path: "snotice", component: SystemNotice, name: "systemnotice"},

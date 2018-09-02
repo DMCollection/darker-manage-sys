@@ -50,6 +50,7 @@
             <el-menu-item :route="{path: '/home/danmaku'}" index="4-1">弹幕列表</el-menu-item>
             <el-menu-item index="#">被举报弹幕</el-menu-item>
             <el-menu-item index="#">弹幕过滤规则</el-menu-item>
+            <el-menu-item :route="{path: '/home/reportlist'}" index="4-4">举报列表</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
             <template slot="title"><i class="el-icon-message"></i>用户管理</template>
