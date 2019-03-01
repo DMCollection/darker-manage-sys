@@ -48,6 +48,18 @@
             <i @click="delEpisode(curEpisodeInfo.epId)" class="el-icon-delete del-ep-icon"></i>
           </p>
           <p>danmakuId: {{curEpisodeInfo.danmakuId}}</p>
+          <p v-if="!editUrl">url: {{curEpisodeInfo.url}}</p>
+          <p v-else>
+            <el-input style="width: 400px" v-model="tempUrl"></el-input>
+          </p>
+          <div v-if="!editUrl" @click="handleEdit(curEpisodeInfo)" class="edit-wellcome">
+            <i class="el-icon-edit edit-icon"></i>
+          </div>
+          <div v-else class="edit-wellcome">
+            <i style="margin-right: 5px" @click="handleSave" class="el-icon-success save-icon"></i>
+            <i @click="handleDiscard" class="el-icon-error discard-icon"></i>
+          </div>
+          <p>观看次数： {{curEpisodeInfo.viewCount}}</p>
           <p>{{curEpisodeInfo.replyable===1?'可评论':'禁止评论'}}</p>
           <p>创建：{{formateDate(curEpisodeInfo.createTime)}}</p>
           <p>修改：{{formateDate(curEpisodeInfo.modifyTime)}}</p>
@@ -88,6 +100,9 @@
     name: "BangumiDetail",
     data() {
       return {
+        editUrl: false,
+        tempUrl: "",
+        editViewCount: false,
         bangumiInfo: "",
         episodes: "",
         page: "",
@@ -98,6 +113,37 @@
       }
     },
     methods: {
+      async updateEpisodeUrl(text) {
+        if (text === "") {
+          this.$message({
+            message: "内容为空",
+            type: "error"
+          });
+          return
+        }
+        this.curEpisodeInfo.url = text;
+        let res = await API.editEpisode(this.curEpisodeInfo.epId, this.curEpisodeInfo);
+        let rd = res.data;
+        console.log("rd:", rd.data);
+        if (rd.code === 0) {
+          this.curEpisodeInfo.url = text;
+          this.editUrl = false;
+          this.$message({
+            message: "修改成功",
+            type: "success"
+          });
+        }
+      },
+      handleEdit() {
+        this.editUrl = true;
+        this.tempUrl = this.curEpisodeInfo.url;
+      },
+      handleSave() {
+        this.updateEpisodeUrl(this.tempUrl);
+      },
+      handleDiscard() {
+        this.editUrl = false;
+      },
       async updateBangumiInfo(bid,bangumi){
         let res = await API.editBangumi(bid,bangumi);
         let rd = res.data;
@@ -324,5 +370,10 @@
   .del-ep-icon {
     color: #ab4b4b;
     margin-left: 13px;
+  }
+
+  .edit-wellcome {
+    display: inline-block;
+    margin-left: 20px;
   }
 </style>
